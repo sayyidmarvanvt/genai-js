@@ -1,19 +1,13 @@
 import dotenv from "dotenv";
-import { ChatOpenAI } from "@langchain/openai";
-import {ChatGoogleGenerativeAI} from "@langchain/google-genai";
-
 dotenv.config();
 
-const llm = new ChatOpenAI();
+import { ChatGroq } from "@langchain/groq";
 
-// For Google Gemini model, uncomment the following statement and comment the openAI statement above
-// Please ensure GOOGLE_API_KEY env variable is set in .env file
-// const llm = new ChatGoogleGenerativeAI({
-//   model: "gemini-2.5-flash"   // if this model is not available anymore then please check another available model from google gemini api documentation
-// });
+const llm = new ChatGroq({
+  apiKey: process.env.GROQ_API_KEY!,
+  model: "llama-3.3-70b-versatile",
+  maxRetries: 0,
+});
 
-const response = await llm.invoke(
-  "Describe the importance of learning generative AI for javascript developers in 50 words."
-);
-
-console.log(response);
+const res = await llm.invoke("Translate 'I love programming' to French");
+console.log(res.content);
