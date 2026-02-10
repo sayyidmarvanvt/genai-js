@@ -1,4 +1,4 @@
-import readlinePromises from "readline/promises";
+import { createInterface } from "readline/promises";
 import { RunnableInterface } from "@langchain/core/runnables";
 import { Document } from "@langchain/core/documents";
 import { ReadableStream } from "node:stream/web";
@@ -16,7 +16,7 @@ export type ChatHandler = (question: string) => Promise<{
 
 // chat utility function that creates chat user interface on terminal
 export const chat = async (handler: ChatHandler) => {
-  const rl = readlinePromises.createInterface({
+  const rl = createInterface({
     input: process.stdin,
     output: process.stdout,
   });

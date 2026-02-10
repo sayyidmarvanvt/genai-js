@@ -1,5 +1,4 @@
 import * as cheerio from "cheerio";
-import fetch from "node-fetch";
 import urlModule from "url";
 import cliProgress from "cli-progress";
 
@@ -27,19 +26,18 @@ export async function crawlLangchainDocsUrls(): Promise<string[]> {
   console.log("Crawling Langchain Documentation...");
   progressBar.start(1000, 0);
 
-  await fetchLinkedUrls(LANGCHAIN_DOCS_HOME, urls);
+  await fetchLinkedUrls(LANGCHAIN_DOCS_HOME, urls); //??
 
   progressBar.stop();
   return [...urls];
 }
 
 async function fetchLinkedUrls(url: string, downloadedUrls: Set<string>) {
-  if (downloadedUrls.has(url)) return;
+  if (downloadedUrls.has(url)) return; //??? remove duplicate url but how it get duplicate url
 
   progressBar.update(downloadedUrls.size);
   try {
     const response = await fetch(url);
-
     const html = await response.text();
     const $ = cheerio.load(html);
 
@@ -47,15 +45,19 @@ async function fetchLinkedUrls(url: string, downloadedUrls: Set<string>) {
 
     // Extract all anchor tags
     const links: string[] = [];
-    $("a").each((index, element) => {
-      const href = $(element).attr("href");
-      if (href && href.startsWith(LANGCHAIN_DOCS_PREFIX)) {
-        links.push(href);
+
+    $("a").each((index, element: any) => {
+      if (element) {
+        const href = $(element).attr("href");
+        if (href && href.startsWith(LANGCHAIN_DOCS_PREFIX)) {
+          links.push(href);
+        }
       }
     });
 
     // Download HTML from linked URLs with reduced depth
     for (const link of links) {
+      // It combines url and link
       const absoluteUrl = urlModule.resolve(url, link);
       await fetchLinkedUrls(absoluteUrl, downloadedUrls);
     }
