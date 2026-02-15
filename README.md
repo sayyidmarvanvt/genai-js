@@ -51,17 +51,17 @@ RAG allows models to **answer questions with external knowledge**. It has three 
 
 3. **Indexing process**
 
-   ```
-   document → split into chunks → generate embeddings → store vectors in index
-   ```
+```
+document → split into chunks → generate embeddings → store vectors in index
+```
 
-   * These vectors capture semantic meaning, allowing similarity searches for relevant content.
+* These vectors capture semantic meaning, allowing similarity searches for relevant content.
 
 ---
 
 ### 4. Query / Retrieval Process
 
-1. **User question** → sent to **Retriever**
+1. **User question → sent to Retriever**
 
    * The question is also converted into an embedding vector.
 
@@ -123,5 +123,56 @@ Think of RAG as **data routing + semantic search + LLM reasoning**:
 
 This flow ensures **accuracy, efficiency, and cost control**.
 
+---
 
+## 8. Running the Project
 
+### Recommended (Development)
+
+Use **tsx** to run TypeScript files directly without compiling:
+
+```bash
+npx tsx src/index.ts
+```
+
+This approach:
+
+* Supports ESM modules
+* Works with top-level await
+* Avoids manual TypeScript compilation
+* Speeds up development workflow
+
+---
+
+### Not Recommended for Dev
+
+Compiling single files with `tsc`:
+
+```bash
+npx tsc src/index.ts
+```
+
+This only compiles the file and may ignore parts of `tsconfig.json`. It also requires a separate step to run the compiled JavaScript.
+
+---
+
+### Production / Build Flow
+
+If you want compiled output:
+
+```bash
+npx tsc
+node dist/index.js
+```
+
+---
+
+**Summary**
+
+| Use Case            | Command                |
+| ------------------- | ---------------------- |
+| Development         | `npx tsx src/index.ts` |
+| Full project build  | `npx tsc`              |
+| Run compiled output | `node dist/index.js`   |
+
+---

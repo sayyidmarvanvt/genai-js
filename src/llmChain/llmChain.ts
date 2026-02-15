@@ -27,7 +27,7 @@ export async function personalizedPitch(
 
   const llm = new ChatGoogleGenerativeAI({
     model: "gemini-2.5-flash",
-    maxOutputTokens:60
+    maxOutputTokens:600
   });
   const outputParser = new StringOutputParser();
 
